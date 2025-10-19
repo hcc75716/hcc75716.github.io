@@ -22,10 +22,12 @@
     .glass{backdrop-filter:saturate(180%) blur(10px); background:rgba(17,24,39,.6)}
     .btn{transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
     .btn:hover{transform:translateY(-2px)} .btn:active{transform:translateY(0) scale(.99)}
+    /* HERO (puedes poner imagen de fondo comentando y usando url('HERO_BG_URL')) */
     .hero{
       background:
         radial-gradient(1200px 400px at 70% 85%, rgba(255,90,31,.18), transparent 60%),
-        linear-gradient(180deg, rgba(11,18,35,.78), rgba(11,18,35,.88));
+        linear-gradient(180deg, rgba(11,18,35,.78), rgba(11,18,35,.88))
+        /* , url('HERO_BG_URL') center/cover no-repeat */;
       position:relative; overflow:hidden; isolation:isolate;
     }
     .gridlines{
@@ -46,11 +48,12 @@
     <nav class="max-w-6xl mx-auto px-4 sm:px-6">
       <div class="flex items-center justify-between h-14">
         <div class="flex items-center gap-3">
-          <!-- Logo de Ágape (archivo local en el repo) -->
+          <!-- Logo de Ágape (Drive público) -->
           <img
-            src="logo.png"
+            src="https://drive.google.com/uc?export=view&id=1COdBOFCgz9d5A6L4GvEIUC911kbg-zwR"
             alt="Ágape Patrimonial"
             class="h-8 w-auto"
+            referrerpolicy="no-referrer"
             onerror="this.style.display='none';document.getElementById('logoFallback').style.display='inline-block';"
           />
           <span id="logoFallback" style="display:none" class="font-extrabold tracking-tight">Ágape Patrimonial</span>
@@ -100,7 +103,7 @@
           </div>
         </div>
 
-        <!-- Panel: gráfico de dispersión -->
+        <!-- Panel: SOLO gráfico de dispersión (sin "Casos de uso" ni "Plantillas") -->
         <div class="md:col-span-5" data-aos="fade-left">
           <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-slate-900/80 to-slate-800/80 p-6 shadow-2xl">
             <div class="text-xs text-slate-400 mb-2">Uso de IA por sectores (2023–2025)</div>
@@ -155,7 +158,7 @@
     </div>
   </section>
 
-  <!-- VIDEO (thumbnail + modal) -->
+  <!-- VIDEO (thumbnail + modal EMBED que sí funciona en Sites) -->
   <section id="video" class="bg-slate-900/40 border-y border-white/5">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14">
       <h2 class="text-3xl md:text-4xl font-extrabold" data-aos="fade-up">Video introductorio</h2>
@@ -260,7 +263,13 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10">
       <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div class="flex items-center gap-2">
-          <img src="agape.png" alt="Ágape Patrimonial" class="h-7 w-auto" onerror="this.style.display='none';">
+          <img
+            src="https://drive.google.com/uc?export=view&id=1COdBOFCgz9d5A6L4GvEIUC911kbg-zwR"
+            alt=""
+            class="h-7 w-auto"
+            referrerpolicy="no-referrer"
+            onerror="this.style.display='none';"
+          >
           <div class="font-bold">Ágape Patrimonial</div>
         </div>
         <div class="text-sm text-slate-400">Powered by <span class="text-slate-200 font-semibold">Mejora Continua</span></div>
@@ -279,6 +288,7 @@
       const ctx = document.getElementById('scatterSectoresHero')?.getContext('2d');
       if(!ctx) return;
 
+      // Datos (fuentes citadas en el panel):
       const puntos = [
         { x:76, y:"Seguros",     r:8,  color:"rgba(255,90,31,1)" },        // Deloitte 2025
         { x:75, y:"Salud",       r:6,  color:"rgba(255,255,255,.85)" },    // Deloitte 2024
@@ -324,7 +334,7 @@
       });
     })();
 
-    // Modal YouTube
+    // Modal YouTube (embed que renderiza en Sites)
     function openVideoModal(){
       const m=document.getElementById('ytModal'); const f=document.getElementById('ytFrame');
       f.src="https://www.youtube-nocookie.com/embed/rmJ7Ty9o9k0?rel=0&modestbranding=1&autoplay=1";
@@ -345,4 +355,3 @@
   </script>
 </body>
 </html>
-
