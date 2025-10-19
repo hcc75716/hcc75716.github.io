@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Estrategia Inteligente · IA para Agentes</title>
+
+  <!-- Tipografía + Tailwind -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- AOS (animaciones) -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>
+
+  <!-- Chart.js (gráficas) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root{ --navy:#0f172a; --navy2:#0b1223; --orange:#ff5a1f; --orange2:#ff7a45; }
+    html,body{font-family:"Inter",system-ui,Segoe UI,Roboto,Arial;}
+    .glass{backdrop-filter:saturate(180%) blur(10px); background:rgba(17,24,39,.6)}
+    .btn{transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+    .btn:hover{transform:translateY(-2px)} .btn:active{transform:translateY(0) scale(.99)}
+    /* HERO (puedes poner imagen de fondo comentando y usando url('HERO_BG_URL')) */
+    .hero{
+      background:
+        radial-gradient(1200px 400px at 70% 85%, rgba(255,90,31,.18), transparent 60%),
+        linear-gradient(180deg, rgba(11,18,35,.78), rgba(11,18,35,.88))
+        /* , url('HERO_BG_URL') center/cover no-repeat */;
+      position:relative; overflow:hidden; isolation:isolate;
+    }
+    .gridlines{
+      position:absolute; inset:0;
+      background:
+        repeating-linear-gradient(to right, rgba(255,255,255,.05) 0 1px, transparent 1px 80px),
+        repeating-linear-gradient(to top, rgba(255,255,255,.04) 0 1px, transparent 1px 80px);
+      mask-image: linear-gradient(180deg, transparent 0%, black 20%, black 80%, transparent 100%);
+      pointer-events:none;
+    }
+    html{scroll-behavior:smooth}
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100">
+
+  <!-- NAV -->
+  <header class="sticky top-0 z-50 glass border-b border-white/5">
+    <nav class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-14">
+        <div class="flex items-center gap-3">
+          <!-- Logo de Ágape (Drive público) -->
+          <img
+            src="https://drive.google.com/uc?export=view&id=1COdBOFCgz9d5A6L4GvEIUC911kbg-zwR"
+            alt="Ágape Patrimonial"
+            class="h-8 w-auto"
+            referrerpolicy="no-referrer"
+            onerror="this.style.display='none';document.getElementById('logoFallback').style.display='inline-block';"
+          />
+          <span id="logoFallback" style="display:none" class="font-extrabold tracking-tight">Ágape Patrimonial</span>
+          <span class="ml-2 text-xs text-slate-400">│ Estrategia <span class="text-[var(--orange2)] font-bold">Inteligente</span></span>
+        </div>
+        <div class="hidden md:flex items-center gap-6 text-sm">
+          <a href="#inicio" class="hover:text-[var(--orange2)]">Inicio</a>
+          <a href="#programa" class="hover:text-[var(--orange2)]">Programa</a>
+          <a href="#video" class="hover:text-[var(--orange2)]">Video</a>
+          <a href="#mentimeter" class="hover:text-[var(--orange2)]">Mentimeter</a>
+          <a href="#recursos" class="hover:text-[var(--orange2)]">Recursos</a>
+          <a href="#evaluacion" class="hover:text-[var(--orange2)]">Evaluación</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section id="inicio" class="hero relative">
+    <div class="gridlines"></div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 pt-14 pb-16 md:pb-24 relative">
+      <div class="grid md:grid-cols-12 gap-8 items-end">
+        <!-- Texto -->
+        <div class="md:col-span-7" data-aos="fade-right">
+          <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
+            Transforma tus <span class="text-[var(--orange)]">ventas</span>, tu marca y tu impacto con IA
+          </h1>
+          <p class="text-slate-200/90 mt-4 text-lg">
+            Sesión de 2 horas para agentes de seguros. Usa IA de forma estratégica para prospectar, dar seguimiento y fortalecer tu marca personal.
+          </p>
+
+          <!-- Fichas -->
+          <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+            <div class="rounded-xl border border-white/10 bg-white/5 p-4"><div class="text-xs text-slate-300">FECHA</div><div class="font-semibold">28 de octubre</div></div>
+            <div class="rounded-xl border border-white/10 bg-white/5 p-4"><div class="text-xs text-slate-300">HORA</div><div class="font-semibold">9:00 – 11:00</div></div>
+            <div class="rounded-xl border border-white/10 bg-white/5 p-4"><div class="text-xs text-slate-300">SEDE</div><div class="font-semibold">Piso 1 · Ágape Patrimonial</div></div>
+          </div>
+
+          <!-- CTAs -->
+          <div class="mt-6 flex flex-col sm:flex-row gap-3">
+            <a href="#programa" class="btn inline-flex items-center justify-center rounded-lg bg-[var(--orange)] px-5 py-3 font-semibold text-white shadow-lg shadow-[rgba(255,90,31,.25)]">Ver contenido</a>
+            <a href="#evaluacion" class="btn inline-flex items-center justify-center rounded-lg border border-white/20 px-5 py-3 font-semibold text-slate-100 hover:bg-white/10">Evaluar sesión</a>
+          </div>
+
+          <div class="mt-8 flex items-center gap-3 text-xs text-slate-300">
+            ⚙️ Powered by <strong class="text-slate-100 ml-1">Mejora Continua</strong>
+          </div>
+        </div>
+
+        <!-- Panel: SOLO gráfico de dispersión (sin "Casos de uso" ni "Plantillas") -->
+        <div class="md:col-span-5" data-aos="fade-left">
+          <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-slate-900/80 to-slate-800/80 p-6 shadow-2xl">
+            <div class="text-xs text-slate-400 mb-2">Uso de IA por sectores (2023–2025)</div>
+            <div class="aspect-[16/10] rounded-xl overflow-hidden border border-white/10">
+              <canvas id="scatterSectoresHero" class="w-full h-full"></canvas>
+            </div>
+            <div class="mt-3 text-[10px] text-slate-500 leading-relaxed">
+              <strong>Fuentes:</strong> Deloitte (2025) Insurance—76%; Deloitte (2024) Healthcare—75%;
+              IBM (2023) Global AI Adoption Index—Finanzas ≈50%, Retail ≈41%, Manufactura ≈39%.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMA -->
+  <section id="programa" class="bg-slate-950">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14 md:py-20">
+      <h2 class="text-3xl md:text-4xl font-extrabold" data-aos="fade-up">Programa de la sesión (2 horas)</h2>
+      <div class="mt-8 grid md:grid-cols-2 gap-6">
+        <div class="rounded-xl border border-white/10 bg-white/5 p-6" data-aos="fade-up">
+          <div class="text-xs text-slate-400 mb-1">10 min</div>
+          <h3 class="font-bold text-lg mb-2 text-[var(--orange)]">Apertura</h3>
+          <ul class="list-disc list-inside text-slate-300 space-y-1">
+            <li>Presentación</li><li>Video: El futuro del Agente de Seguros</li><li>Dinámica: ¿Qué smartphone usas?</li>
+          </ul>
+        </div>
+        <div class="rounded-xl border border-white/10 bg-white/5 p-6" data-aos="fade-up" data-aos-delay="50">
+          <div class="text-xs text-slate-400 mb-1">25 min</div>
+          <h3 class="font-bold text-lg mb-2 text-[var(--orange)]">La IA como herramienta estratégica</h3>
+          <ul class="list-disc list-inside text-slate-300 space-y-1">
+            <li>Mentimeter: ¿Qué piensan los agentes de la IA?</li><li>¿Qué es la IA?</li><li>¿Qué es un prompt y cómo construirlo?</li>
+          </ul>
+        </div>
+        <div class="rounded-xl border border-white/10 bg-white/5 p-6" data-aos="fade-up" data-aos-delay="100">
+          <div class="text-xs text-slate-400 mb-1">40 min</div>
+          <h3 class="font-bold text-lg mb-2 text-[var(--orange)]">Marca personal</h3>
+          <ul class="list-disc list-inside text-slate-300 space-y-1">
+            <li>¿Qué esperas de 2026?</li><li>Análisis de mercado</li><li>Logo y slogan</li><li>Misión/visión/valores</li><li>Estrategia de redes</li>
+          </ul>
+        </div>
+        <div class="rounded-xl border border-white/10 bg-white/5 p-6" data-aos="fade-up" data-aos-delay="150">
+          <div class="text-xs text-slate-400 mb-1">40 min</div>
+          <h3 class="font-bold text-lg mb-2 text-[var(--orange)]">Prospección y seguimiento</h3>
+          <ul class="list-disc list-inside text-slate-300 space-y-1">
+            <li>Guiones con IA</li><li>Automatizar vencimientos</li><li>Mini test de automatización</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO (thumbnail + modal EMBED que sí funciona en Sites) -->
+  <section id="video" class="bg-slate-900/40 border-y border-white/5">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14">
+      <h2 class="text-3xl md:text-4xl font-extrabold" data-aos="fade-up">Video introductorio</h2>
+      <p class="text-slate-300 mt-2" data-aos="fade-up" data-aos-delay="50">Conoce lo que aprenderás en esta capacitación.</p>
+
+      <div class="mt-6 rounded-2xl overflow-hidden border border-white/10" data-aos="zoom-in">
+        <button onclick="openVideoModal()" class="relative block w-full">
+          <img src="https://img.youtube.com/vi/rmJ7Ty9o9k0/hqdefault.jpg" alt="Video: El futuro del Agente" class="w-full h-auto">
+          <span class="absolute inset-0 flex items-center justify-center">
+            <span class="rounded-full bg-black/60 text-white px-5 py-3">▶ Ver video</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- Modal -->
+      <div id="ytModal" class="fixed inset-0 bg-black/70 hidden z-50 p-4">
+        <div class="max-w-4xl mx-auto bg-slate-900 rounded-xl overflow-hidden border border-white/10">
+          <div class="aspect-video">
+            <iframe id="ytFrame" class="w-full h-full" title="YouTube video" src=""
+              frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+        </div>
+        <button onclick="closeVideoModal()" class="absolute top-3 right-3 bg-white/10 text-white rounded-lg px-3 py-1">Cerrar</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENTIMETER -->
+  <section id="mentimeter" class="bg-slate-950">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14">
+      <div class="grid md:grid-cols-2 gap-8 items-center">
+        <div data-aos="fade-right">
+          <h2 class="text-3xl md:text-4xl font-extrabold">Dinámica en vivo con Mentimeter</h2>
+          <p class="text-slate-300 mt-3">Participa en tiempo real: encuestas, prompts colaborativos, votaciones y Q&A.</p>
+          <div class="mt-6">
+            <a href="https://www.menti.com/alvnghe8r6hk" target="_blank" rel="noopener" class="btn rounded-lg bg-white/10 px-5 py-3 hover:bg-white/20">Abrir Mentimeter</a>
+            <span class="text-xs text-slate-400 ml-3">Usaremos un código en vivo</span>
+          </div>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-slate-900 to-slate-800 p-6" data-aos="fade-left">
+          <div class="text-sm text-slate-300">Cómo participar</div>
+          <ol class="mt-2 space-y-2 text-slate-200 text-sm">
+            <li>1) Entra a <strong>menti.com</strong> o usa el botón.</li>
+            <li>2) Ingresa el código mostrado en pantalla.</li>
+            <li>3) Responde y vota en tiempo real.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECURSOS -->
+  <section id="recursos" class="bg-slate-950">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14">
+      <h2 class="text-3xl md:text-4xl font-extrabold" data-aos="fade-up">Recursos</h2>
+      <div class="mt-8 grid md:grid-cols-3 gap-6">
+        <div class="rounded-xl border border-white/10 bg-white/5 p-6" data-aos="fade-up">
+          <div class="text-sm text-slate-300">Manual de IA</div>
+          <p class="text-xs text-slate-400 mt-1">Prompts y mejores prácticas</p>
+          <button onclick="toast('📚 Descargando Manual de IA...')" class="btn mt-4 rounded-lg bg-[var(--orange)] px-4 py-2 font-semibold text-white">Descargar</button>
+        </div>
+        <div class="rounded-xl border border-white/10 bg-white/5 p-6" data-aos="fade-up" data-aos-delay="50">
+          <div class="text-sm text-slate-300">Videos Tutoriales</div>
+          <p class="text-xs text-slate-400 mt-1">Casos reales paso a paso</p>
+          <button onclick="toast('🎬 Abriendo biblioteca de videos...')" class="btn mt-4 rounded-lg bg-white/10 px-4 py-2 hover:bg-white/20">Ver Videos</button>
+        </div>
+        <div class="rounded-xl border border-white/10 bg-white/5 p-6" data-aos="fade-up" data-aos-delay="100">
+          <div class="text-sm text-slate-300">Plantillas de Prompts</div>
+          <p class="text-xs text-slate-400 mt-1">Listas para usar</p>
+          <button onclick="toast('💬 Descargando Plantillas de Prompts...')" class="btn mt-4 rounded-lg bg-white/10 px-4 py-2 hover:bg-white/20">Obtener</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVALUACIÓN -->
+  <section id="evaluacion" class="bg-slate-900/40 border-y border-white/5">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-14">
+      <div class="grid md:grid-cols-2 gap-8 items-center">
+        <div data-aos="fade-right">
+          <h2 class="text-3xl md:text-4xl font-extrabold">Evalúa la sesión</h2>
+          <p class="text-slate-300 mt-2">Tu retroalimentación mejora futuras capacitaciones.</p>
+          <a href="https://forms.gle/rfHASjEKWYB8js1e7" target="_blank" rel="noopener"
+             class="btn mt-5 rounded-lg bg-[var(--orange)] px-5 py-3 font-semibold text-white shadow-lg shadow-[rgba(255,90,31,.25)]">Abrir formulario</a>
+          <p class="text-xs text-slate-400 mt-3">Google Forms · abre en una nueva pestaña</p>
+        </div>
+        <div class="rounded-2xl border border-white/10 bg-slate-900 p-6" data-aos="fade-left">
+          <div class="text-sm text-slate-300">Incluye</div>
+          <ul class="mt-2 space-y-2 text-slate-200 text-sm">
+            <li>• Valor percibido del contenido</li>
+            <li>• Utilidad de las dinámicas</li>
+            <li>• Qué automatizarás esta semana</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-950">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div class="flex items-center gap-2">
+          <img
+            src="https://drive.google.com/uc?export=view&id=1COdBOFCgz9d5A6L4GvEIUC911kbg-zwR"
+            alt=""
+            class="h-7 w-auto"
+            referrerpolicy="no-referrer"
+            onerror="this.style.display='none';"
+          >
+          <div class="font-bold">Ágape Patrimonial</div>
+        </div>
+        <div class="text-sm text-slate-400">Powered by <span class="text-slate-200 font-semibold">Mejora Continua</span></div>
+      </div>
+      <div class="border-t border-white/10 mt-6 pt-6 text-xs text-slate-500">© 2024 · Todos los derechos reservados.</div>
+    </div>
+  </footer>
+
+  <!-- LIBS y SCRIPTS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ once:true, duration:700, easing:"ease-out-cubic" });
+
+    // Gráfico de dispersión (Uso de IA por sectores)
+    (function(){
+      const ctx = document.getElementById('scatterSectoresHero')?.getContext('2d');
+      if(!ctx) return;
+
+      // Datos (fuentes citadas en el panel):
+      const puntos = [
+        { x:76, y:"Seguros",     r:8,  color:"rgba(255,90,31,1)" },        // Deloitte 2025
+        { x:75, y:"Salud",       r:6,  color:"rgba(255,255,255,.85)" },    // Deloitte 2024
+        { x:50, y:"Servicios financieros", r:5, color:"rgba(255,255,255,.65)" }, // IBM 2023
+        { x:41, y:"Retail",      r:5,  color:"rgba(255,255,255,.65)" },    // IBM 2023
+        { x:39, y:"Manufactura", r:5,  color:"rgba(255,255,255,.65)" }     // IBM 2023
+      ];
+
+      new Chart(ctx, {
+        type: 'scatter',
+        data: {
+          datasets: [{
+            label: 'Uso/implementación de IA (%)',
+            data: puntos.map(p => ({x:p.x, y:p.y, r:p.r})),
+            pointBackgroundColor: puntos.map(p => p.color),
+            pointBorderColor: puntos.map(p => p.color),
+            pointRadius: puntos.map(p => p.r),
+            pointHoverRadius: puntos.map(p => p.r + 2)
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              min: 0, max: 100,
+              ticks: { callback: v => v + "%" },
+              grid: { color:"rgba(255,255,255,.08)" },
+              title:{ display:true, text:"Adopción / implementación (%)", color:"#cbd5e1" }
+            },
+            y: {
+              type: 'category',
+              labels: puntos.map(p => p.y),
+              grid: { display:false },
+              ticks: { color:"#e2e8f0" }
+            }
+          },
+          plugins: {
+            legend: { display:false },
+            tooltip: { callbacks: { label: c => `${c.raw.y}: ${c.raw.x}%` } }
+          }
+        }
+      });
+    })();
+
+    // Modal YouTube (embed que renderiza en Sites)
+    function openVideoModal(){
+      const m=document.getElementById('ytModal'); const f=document.getElementById('ytFrame');
+      f.src="https://www.youtube-nocookie.com/embed/rmJ7Ty9o9k0?rel=0&modestbranding=1&autoplay=1";
+      m.classList.remove('hidden');
+    }
+    function closeVideoModal(){
+      const m=document.getElementById('ytModal'); const f=document.getElementById('ytFrame');
+      f.src=""; m.classList.add('hidden');
+    }
+
+    // Toast simple
+    function toast(msg){
+      const n=document.createElement('div');
+      n.textContent=msg;
+      n.className='fixed z-[60] top-4 right-4 bg-slate-800/90 text-slate-100 text-sm px-4 py-2 rounded-lg border border-white/10 shadow-lg';
+      document.body.appendChild(n); setTimeout(()=>n.remove(),2600);
+    }
+  </script>
+</body>
+</html>
